@@ -78,10 +78,9 @@ namespace PingPlugin
 					Players[e.Msg.whoAmI] = null;
 					NetMessage.SendData(22, -1, -1, "", ItemID, 0f, 0f, 0f, 0);
 
-					bool Self = e.Msg.whoAmI == pingdata.ReportTo;
-					var report = TShock.Players[pingdata.ReportTo];
-					if (report != null && report.Active)
-						report.SendInfoMessage(string.Format("{1} ping is {0}ms.", ping, Self ? "Your" : (TShock.Players[e.Msg.whoAmI].Name + "'s")));
+					bool Self = TShock.Players[e.Msg.whoAmI] == pingdata.ReportTo;
+					if (pingdata.ReportTo != null && pingdata.ReportTo.Active)
+						pingdata.ReportTo.SendInfoMessage(string.Format("{1} ping is {0}ms.", ping, Self ? "Your" : (TShock.Players[e.Msg.whoAmI].Name + "'s")));
 					return;
 				}
 				e.Msg.binaryReader.BaseStream.Position = e.Index;
@@ -147,7 +146,7 @@ namespace PingPlugin
 			Data[3] = Id[0];
 			Data[4] = Id[1];
 			target.SendRawData(Data);
-			Players[target.Index] = new PingData(id, e.Player.Index);
+			Players[target.Index] = new PingData(id, e.Player);
 		}
 	}
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using TShockAPI;
 
 namespace PingPlugin
 {
@@ -9,9 +7,9 @@ namespace PingPlugin
 	{
 		public DateTime Start { get; private set; }
 		public int ID { get; private set; }
-		public int ReportTo { get; private set; }
+		public TSPlayer ReportTo { get; private set; }
 
-		public PingData(int ItemID, int Caller)
+		public PingData(int ItemID, TSPlayer Caller)
 		{
 			ID = ItemID;
 			Start = DateTime.Now;

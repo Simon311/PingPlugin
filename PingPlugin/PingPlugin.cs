@@ -40,13 +40,16 @@ namespace PingPlugin
 
 		public readonly byte[] Packet = new byte[] { 5, 0, 39, 0, 0 };
 
+		public static PingConfig Config;
+
 		private PingData[] Players = new PingData[256];
 
 		public override void Initialize()
 		{
 			ServerApi.Hooks.NetGetData.Register(this, GetData, DefaultOrder);
 			ServerApi.Hooks.ServerLeave.Register(this, ServerLeave, DefaultOrder);
-			Commands.ChatCommands.Add(new Command("ping.ping", Ping, "ping"));
+			Config = PingConfig.Read();
+			Commands.ChatCommands.Add(new Command("ping.ping", Ping, Config.CommandName));
 		}
 
 		protected override void Dispose(bool disposing)

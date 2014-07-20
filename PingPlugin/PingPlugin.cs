@@ -12,29 +12,29 @@ namespace PingPlugin
 	public class PingPlugin : TerrariaPlugin
 	{
 		public override Version Version
-        {
+		{
 			get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
-        }
+		}
 
-        public override string Name
-        {
+		public override string Name
+		{
 			get { return "Ping"; }
-        }
+		}
 
-        public override string Author
-        {
-            get { return "Simon311"; }
-        }
+		public override string Author
+		{
+			get { return "Simon311"; }
+		}
 
-        public override string Description
-        {
-            get { return "Measures ping to clients."; }
-        }
+		public override string Description
+		{
+			get { return "Measures ping to clients."; }
+		}
 
-        public PingPlugin(Main game) : base(game) 
-        {
+		public PingPlugin(Main game) : base(game) 
+		{
 			Order = 0;
-        }
+		}
 
 		public const int DefaultOrder = 1;
 
@@ -42,22 +42,22 @@ namespace PingPlugin
 
 		private PingData[] Players = new PingData[256];
 
-        public override void Initialize()
-        {
+		public override void Initialize()
+		{
 			ServerApi.Hooks.NetGetData.Register(this, GetData, DefaultOrder);
 			ServerApi.Hooks.ServerLeave.Register(this, ServerLeave, DefaultOrder);
 			Commands.ChatCommands.Add(new Command("ping.ping", Ping, "ping"));
-        }
+		}
 
-        protected override void Dispose(bool disposing)
-        {
+		protected override void Dispose(bool disposing)
+		{
 			if (disposing)
 			{
 				ServerApi.Hooks.NetGetData.Deregister(this, GetData);
 				ServerApi.Hooks.ServerLeave.Deregister(this, ServerLeave);
 			}
 			base.Dispose(disposing);
-        }
+		}
 
 		private void GetData(GetDataEventArgs e)
 		{

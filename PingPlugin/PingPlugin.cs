@@ -77,9 +77,8 @@ namespace PingPlugin
 				{
 					Players[e.Msg.whoAmI] = null;
 					NetMessage.SendData(22, -1, -1, "", ItemID, 0f, 0f, 0f, 0);
-
-					bool Self = TShock.Players[e.Msg.whoAmI] == pingdata.ReportTo;
-					if (pingdata.ReportTo != null && pingdata.ReportTo.Active)
+					bool Self = e.Msg.whoAmI == pingdata.ReportTo.Index;
+					if (pingdata.ReportTo != null && (pingdata.ReportTo.Active || !pingdata.ReportTo.RealPlayer))
 						pingdata.ReportTo.SendInfoMessage(string.Format("{1} ping is {0}ms.", ping, Self ? "Your" : (TShock.Players[e.Msg.whoAmI].Name + "'s")));
 					return;
 				}
@@ -127,6 +126,12 @@ namespace PingPlugin
 						e.Player.SendErrorMessage("Multiple players matched: " + string.Join(", ", f));
 						return;
 				}
+			}
+
+			if (Self && !e.Player.RealPlayer)
+			{
+				e.Player.SendErrorMessage("Sorry, you can't ping yourself from there.");
+				return;
 			}
 
 			if (Players[target.Index] != null)

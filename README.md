@@ -1,5 +1,8 @@
 ###Ping Plugin for TShock
 
+**Config**:  
+There is a config file called ping.json with CommandName setting in it.
+
 **Commands**: /ping [name]  
 [name] is optional
 

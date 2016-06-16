@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TShockAPI;
 using Terraria;
 using TerrariaApi.Server;
 
 namespace PingPlugin
 {
-	[ApiVersion(1, 16)]
+	[ApiVersion(1, 23)]
 	public class PingPlugin : TerrariaPlugin
 	{
 		public override Version Version
@@ -69,9 +66,9 @@ namespace PingPlugin
 				var pingdata = Players[e.Msg.whoAmI];
 				int ping = pingdata.Summarize();
 
-				e.Msg.binaryReader.BaseStream.Position = e.Index;
-				short ItemID = e.Msg.binaryReader.ReadInt16();
-				byte ItemOwner = e.Msg.binaryReader.ReadByte();
+				e.Msg.reader.BaseStream.Position = e.Index;
+				short ItemID = e.Msg.reader.ReadInt16();
+				byte ItemOwner = e.Msg.reader.ReadByte();
 
 				if (ItemID == pingdata.ID && ItemOwner == 255)
 				{
@@ -82,7 +79,7 @@ namespace PingPlugin
 						pingdata.ReportTo.SendInfoMessage(string.Format("{1} ping is {0}ms.", ping, Self ? "Your" : (TShock.Players[e.Msg.whoAmI].Name + "'s")));
 					return;
 				}
-				e.Msg.binaryReader.BaseStream.Position = e.Index;
+				e.Msg.reader.BaseStream.Position = e.Index;
 			}
 		}
 
